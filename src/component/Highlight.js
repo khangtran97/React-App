@@ -7,20 +7,43 @@ class Highlight extends Component {
         this.makeBold = this.makeBold.bind(this);
     }
 
-    document.onselectionchange = function() {
-        let selection = document.getSelection();
-    
-        cloned.innerHTML = astext.innerHTML = "";
-        
-        // Clone DOM nodes from ranges (we support multiselect here)
-        for (let i = 0; i < selection.rangeCount; i++) {
-          cloned.innerHTML= '<mark>'+selection.getRangeAt(i).toString()+'</mark>';
-        }
-    
-        // console.log(p.text.indexOf("cloned"))
-        // Get as text
-        astext.innerHTML += selection;
-      };
+    // document.onselectionchange = function() {
+    //     let selection = document.getSelection();
+
+    //     cloned.innerHTML = astext.innerHTML = "";
+
+    //     // Clone DOM nodes from ranges (we support multiselect here)
+    //     for (let i = 0; i < selection.rangeCount; i++) {
+    //       cloned.innerHTML= '<mark>'+selection.getRangeAt(i).toString()+'</mark>';
+    //     }
+
+    //     // console.log(p.text.indexOf("cloned"))
+    //     // Get as text
+    //     astext.innerHTML += selection;
+    //   };
+
+    componentDidMount() {
+        document.onselectionchange = function () {
+            let selection = document.getSelection();
+            let cloned = document.getElementById('cloned');
+            let astext = document.getElementById('astext');
+
+            cloned.innerHTML = astext.innerHTML = "";
+
+            // Clone DOM nodes from ranges (we support multiselect here)
+            for (let i = 0; i < selection.rangeCount; i++) {
+                cloned.innerHTML = '<mark>' + selection.getRangeAt(i).toString() + '</mark>';
+            }
+
+            // console.log(p.text.indexOf("cloned"))
+            // Get as text
+            astext.innerHTML += selection;
+        };
+    }
+
+    componentDidUpdate() {
+        document.getElementsByTagName('mark').style.background = 'yellow';
+    }
 
     getSelectionHtml() {
         let html = "";
@@ -70,6 +93,10 @@ class Highlight extends Component {
     render() {
         const style = {
             fontWeight: 'bold'
+        }
+
+        const styleMark = {
+            background: 'yellow'
         }
         return (
             <div>
